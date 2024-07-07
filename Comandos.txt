@@ -1,0 +1,7 @@
+py -m venv myenv
+myenv\Scripts\activate
+pip install fastapi uvicorn
+pip install requests
+uvicorn app.main:app --reload
+uvicorn app:app --host 127.0.0.1 --port 8000 --workers 4
+
