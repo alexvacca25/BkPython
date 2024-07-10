@@ -29,7 +29,25 @@ def get_recursos(id: int, sql: str) :
     finally:
         connection.close()
 
+def get_all_periodo(sql: str,token:str) :
+    connection = get_db_connection()
+    try:
+        with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+            """ sql = GET_CURSO """
+            cursor.execute(sql,)
+            results = cursor.fetchall()
+            #results['token']=token
+            if not results:
+                raise HTTPException(status_code=404, detail="No related data found")
+            
+            return [RecursosModel(**result) for result in results]
 
+            #return results
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        connection.close()
 
 def get_all_cursos_laboratorio(id: int, sql: str, token:str) :
     connection = get_db_connection()

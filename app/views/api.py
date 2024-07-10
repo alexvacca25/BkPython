@@ -2,12 +2,12 @@ from typing import List
 from fastapi import APIRouter, Depends, Path, Query
 from app.controllers.combined_controller import get_combined_data
 
-from app.controllers.recursos_generales_controller import  get_all_cursos_laboratorio, get_all_cursos_laboratorio_centro_nodo, get_recursos
+from app.controllers.recursos_generales_controller import  get_all_cursos_laboratorio, get_all_cursos_laboratorio_centro_nodo, get_all_periodo, get_recursos
 from app.controllers.referencia_centro import fetch_centro
 from app.models.combined_model import CombinedModel
 from app.models.laboratorio_curso import LaboratorioCurso, LaboratorioCursoList
 from app.controllers.laboratorio_curso_controller import create_laboratorio_curso, read_laboratorio_curso
-from app.sql.recursos_generales_sql import GET_ALL_LABORATORIO_CURSO_PERIODO, GET_ALL_LABORATORIO_CURSO_PERIODO_CENTRO_NODO, GET_CENTRO, GET_CURSO, GET_PERIODO
+from app.sql.recursos_generales_sql import GET_ALL_LABORATORIO_CURSO_PERIODO, GET_ALL_LABORATORIO_CURSO_PERIODO_CENTRO_NODO, GET_CENTRO, GET_CURSO, GET_PERIODO, GET_PERIODO_ALL
 
 from auth.dependencies import validar_token_en_api_externa
 
@@ -75,3 +75,8 @@ def get_laboratorios(id: int = Query(..., title="Curso a consultar"),
 def get_lab_nodos(id: int = Query(..., title="Curso a consultar"),
     token: str = Query(..., title="Token a consultar")):
      return get_all_cursos_laboratorio_centro_nodo(id, GET_ALL_LABORATORIO_CURSO_PERIODO_CENTRO_NODO,token)
+
+@router.get("/periodosall")
+def get_periodo_all(
+    token: str = Query(..., title="Token a consultar")):
+     return get_all_periodo(GET_PERIODO_ALL,token)

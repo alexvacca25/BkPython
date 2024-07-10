@@ -5,35 +5,51 @@ GET_CURSO = "SELECT consecutivo as id, mat_descripcion as descripcion from thuma
 
 GET_PERIODO = "SELECT consecutivo as id,descripcion FROM thumano20.periodos where consecutivo= %s"
 
+GET_PERIODO_ALL = "SELECT consecutivo as id,descripcion FROM thumano20.periodos where consecutivo=1701 or consecutivo=1704"
+
 GET_ALL_LABORATORIO_CURSO_PERIODO = """
-            SELECT 
+          SELECT
                 lc.id,
                 lc.curso AS id_curso,
-                ac.curso_descripcion ,
+                ac.mat_descripcion as descripcion,
                 lc.centro ,
-                rc.nombrecead ,
+                rc.nombrecead,
+                rz.nombre_zona,
                 lc.estudiantes_grupo, 
                 lc.horas_grupo, 
                 lc.tipo_laboratorio, 
                 lc.ubicacion, 
                 lc.recurso   
-                    
-
-                FROM 
-                soca2023.laboratorios_cursos_centro lc,
-                soca2023.aad_cursos ac,
-                soca2023.referencia_centro rc
-
-
-                WHERE 
-                lc.curso = ac.curso_equivalente and
-                lc.centro = rc.codigocead and 
-                lc.periodo = %s;
+                FROM
+                soca2023.laboratorios_cursos_centro lc
+                JOIN  thumano20.materias ac  ON lc.curso = ac.consecutivo
+                JOIN soca2023.referencia_centro rc ON lc.centro = rc.codigocead
+                JOIN soca2015.referencia_zona rz ON rc.zona = rz.codigo_zona
+                WHERE
+                periodo = %s;
 
             """
 
 
-
+""" SELECT
+                lc.id,
+                lc.curso AS id_curso,
+                ac.mat_descripcion as descripcion,
+                lc.centro ,
+                rc.nombrecead,
+                rz.nombre_zona,
+                lc.estudiantes_grupo, 
+                lc.horas_grupo, 
+                lc.tipo_laboratorio, 
+                lc.ubicacion, 
+                lc.recurso   
+                FROM
+                soca2023.laboratorios_cursos_centro lc
+                JOIN  thumano20.materias ac  ON lc.curso = ac.consecutivo
+                JOIN soca2023.referencia_centro rc ON lc.centro = rc.codigocead
+                JOIN soca2015.referencia_zona rz ON rc.zona = rz.codigo_zona
+                WHERE
+                periodo=1701 """
 
 GET_ALL_LABORATORIO_CURSO_PERIODO_CENTRO_NODO = """ 
 
@@ -130,5 +146,32 @@ where R.periodo= %s;
                 lc.curso = ac.curso_equivalente and
                 lc.centro = rc.codigocead and 
                 lc.periodo = %s;
+
+            """
+
+
+
+
+
+
+#laboratorio original
+"""
+           SELECT
+                lc.id,
+                lc.curso AS id_curso,
+                ac.mat_descripcion as descripcion,
+                lc.centro ,
+                rc.nombrecead ,
+                lc.estudiantes_grupo, 
+                lc.horas_grupo, 
+                lc.tipo_laboratorio, 
+                lc.ubicacion, 
+                lc.recurso   
+                FROM
+                soca2023.laboratorios_cursos_centro lc
+                JOIN  thumano20.materias ac  ON lc.curso = ac.consecutivo
+                JOIN soca2023.referencia_centro rc ON lc.centro = rc.codigocead
+                WHERE
+                periodo = %s;
 
             """
