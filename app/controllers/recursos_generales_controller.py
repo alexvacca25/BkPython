@@ -97,9 +97,14 @@ def get_all_cursos_laboratorio_centro_nodo(id: int, sql: str, token:str) :
                         estudiantes=dato['estudiantes'],
                         horas=dato['horas'],
                         periodo=dato['periodo'],
+                        zona=dato['zona'],
+                        escuela=dato['escuela'],
+                        tipo=dato['tipo'],
+                       
                         atiende=[]
                     )
                 cursos[key].atiende.append(CentroAtendido(
+                    idCentroAtender=dato['id'],
                     centro_atender=dato['centro_atender'],
                     nombre_centro_atendido=dato['nombre_centro_atendido']
                 ))
