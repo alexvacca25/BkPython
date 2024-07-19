@@ -8,10 +8,11 @@ from app.controllers.laboratorios_controller import add_curso, add_nodo
 from app.controllers.quitar_cursos_controller import quitar_curso
 from app.controllers.recursos_generales_controller import  get_all_cursos_laboratorio, get_all_cursos_laboratorio_centro_nodo, get_all_periodo, get_recursos
 from app.controllers.referencia_centro import fetch_centro
+from app.controllers.reportes_componente import get_componente
 from app.models.combined_model import CombinedModel
 from app.models.laboratorio_curso import LaboratorioCurso, LaboratorioCursoList
 from app.controllers.laboratorio_curso_controller import create_laboratorio_curso, read_laboratorio_curso
-from app.sql.clonar import ADD_CURSO_LAB, ADD_CURSO_NODO, COPIAR_CURSO_AUTODIRIGIDOS, COPIAR_LAB_PERIODO, COPIAR_NODO_CENTRO, QUITAR_CURSO
+from app.sql.clonar import ADD_CURSO_LAB, ADD_CURSO_NODO, COMPONENTE_1, COMPONENTE_2, COMPONENTE_3, COMPONENTE_4, COPIAR_CURSO_AUTODIRIGIDOS, COPIAR_LAB_PERIODO, COPIAR_NODO_CENTRO, QUITAR_CURSO
 from app.sql.cursos_autodirigidos_sql import GET_CURSO_AUTO_ALL
 from app.sql.recursos_generales_sql import GET_ALL_LABORATORIO_CURSO_PERIODO, GET_ALL_LABORATORIO_CURSO_PERIODO_CENTRO_NODO, GET_CENTRO, GET_CURSO, GET_PERIODO, GET_PERIODO_ALL
 
@@ -168,3 +169,18 @@ async def insertar_laboratorio_nodo(request: Request):
     
     # Llamar a la función add_curso
     return add_nodo(curso,centro,centro_atender,estudiantes,horas,periodo,ADD_CURSO_NODO)
+
+
+
+@router.get("/reportescomponente")
+def get_consultas(origen: int = Query(..., title="Periodo Origen"),
+                   consulta: str = Query(..., title="Periodo Destino"),
+    token: str = Query(..., title="Token a consultar")):
+     if consulta=="consulta1":
+        return get_componente(origen,COMPONENTE_1,token)
+     if consulta=="consulta2":
+        return get_componente(origen,COMPONENTE_2,token)
+     if consulta=="consulta3":
+        return get_componente(origen,COMPONENTE_3,token)
+     if consulta=="consulta4":
+        return get_componente(origen,COMPONENTE_4,token)
